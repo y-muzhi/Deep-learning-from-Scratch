@@ -1,6 +1,7 @@
 # ch03/mnist_show.py
 import sys, os
-sys.path.append(os.pardir)
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.append(base_dir)
 
 import numpy as np
 from dataset.mnist import load_mnist

@@ -6,8 +6,12 @@ import pickle
 import numpy as np
 import struct
 
-# MNIST 官网文件
-url_base = "http://yann.lecun.com/exdb/mnist/"
+# MNIST 下载地址（按顺序尝试）
+url_bases = [
+    "https://yann.lecun.com/exdb/mnist/",
+    "http://yann.lecun.com/exdb/mnist/",
+    "https://storage.googleapis.com/cvdf-datasets/mnist/",
+]
 key_file = {
     "train_img": "train-images-idx3-ubyte.gz",
     "train_label": "train-labels-idx1-ubyte.gz",
@@ -32,8 +36,15 @@ def _download(file_name: str) -> None:
         return
 
     print(f"Downloading {file_name} ...")
-    urllib.request.urlretrieve(url_base + file_name, file_path)
-    print("Done")
+    last_err = None
+    for base in url_bases:
+        try:
+            urllib.request.urlretrieve(base + file_name, file_path)
+            print("Done")
+            return
+        except Exception as e:
+            last_err = e
+    raise last_err
 
 
 def _download_mnist() -> None:
