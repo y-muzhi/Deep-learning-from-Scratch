@@ -20,6 +20,9 @@ label = t_train[0]
 print(label)  # 例如：5
 
 print(img.shape)           # (784,)
+print("input values (first 20):", img[:20])
+np.set_printoptions(threshold=np.inf)
+print("input values (all 784):", img)
 img = img.reshape(28, 28)  # 还原为 28x28
 print(img.shape)           # (28, 28)
 

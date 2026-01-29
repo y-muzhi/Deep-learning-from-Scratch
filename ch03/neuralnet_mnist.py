@@ -2,6 +2,7 @@
 import os
 import sys
 import pickle
+import urllib.request
 
 import numpy as np
 
@@ -34,6 +35,10 @@ def get_data():
 
 def init_network():
     weights_path = os.path.join(os.path.dirname(__file__), "sample_weight.pkl")
+    if not os.path.exists(weights_path):
+        url = "https://github.com/oreilly-japan/deep-learning-from-scratch/raw/master/ch03/sample_weight.pkl"
+        print("Downloading sample_weight.pkl ...")
+        urllib.request.urlretrieve(url, weights_path)
     with open(weights_path, "rb") as f:
         network = pickle.load(f)
     return network
@@ -49,3 +54,5 @@ def predict(network, x):
     a3 = np.dot(z2, W3) + b3
     y = softmax(a3)
     return y
+
+
